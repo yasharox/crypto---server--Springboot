@@ -73,7 +73,8 @@ public class AppConfig {
 //        config.setAllowedOrigins(List.of("*")); // Allow frontend
         config.setAllowedOrigins(List.of("http://localhost:5173",
                 "https://crypto-fullstack-apz6.vercel.app",
-                "https://crypto-fullstack-ox.vercel.app"
+                "https://crypto-fullstack-ox.vercel.app",
+                "https://crypto-server-springboot-production.up.railway.app"
                 ));
         config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE","PATCH", "OPTIONS"));
         config.setAllowedHeaders(List.of("Authorization", "Content-Type"));
