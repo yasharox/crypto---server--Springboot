@@ -72,9 +72,8 @@ public class AppConfig {
         CorsConfiguration config = new CorsConfiguration();
 //        config.setAllowedOrigins(List.of("*")); // Allow frontend
         config.setAllowedOrigins(List.of(
-                "https://crypto-fullstack-apz6.vercel.app",
-                "https://crypto-fullstack-ox.vercel.app"
-                ));
+                "https://crypto-fullstack-apz6.vercel.app"
+        ));
         config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE","PATCH", "OPTIONS"));
         config.setAllowedHeaders(List.of("Authorization", "Content-Type"));
         config.setExposedHeaders(List.of("Authorization"));
