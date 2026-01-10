@@ -1,21 +1,23 @@
 package com.yash.trading.config;
 
+import java.util.List;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.config.annotation.web.configurers.CorsConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
-
-import java.util.List;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
 @EnableWebSecurity
@@ -48,11 +50,11 @@ public class AppConfig {
                         .anyRequest().permitAll())
                 .addFilterBefore(
                         new JwtTokenValidator(),
-//                        BasicAuthenticationFilter.class,
+                        //                        BasicAuthenticationFilter.class,
                         UsernamePasswordAuthenticationFilter.class
-                        )
+                )
                 .csrf(AbstractHttpConfigurer::disable)
-                .cors(cors->cors.configurationSource(corsConfigurationSource()));
+                .cors(CorsConfigurer::disable);
 
         return http.build();
     }
@@ -67,12 +69,13 @@ public class AppConfig {
 
 
     // ----------------------- CORS CONFIG ----------------------------
-    @Bean
+    //    @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration config = new CorsConfiguration();
-//        config.setAllowedOrigins(List.of("*")); // Allow frontend
+        //        config.setAllowedOrigins(List.of("*")); // Allow frontend
         config.setAllowedOrigins(List.of(
-                "https://crypto-fullstack-apz6.vercel.app"
+                "https://crypto-fullstack-apz6.vercel.app",
+                "https://crypto-fullstack-ox.vercel.app"
         ));
         config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE","PATCH", "OPTIONS"));
         config.setAllowedHeaders(List.of("Authorization", "Content-Type"));
@@ -83,7 +86,17 @@ public class AppConfig {
         source.registerCorsConfiguration("/**", config);
         return source;
     }
+
+    @Bean
+    WebMvcConfigurer corsConfig() {
+        return new WebMvcConfigurer() {
+            @Override
+            public void addCorsMappings(CorsRegistry registry) {
+                registry.addMapping("/**");
+            }
+
+        };
+    }
+
 }
 
-
-// part 3 : 50:48 watch for the cors >> App config
