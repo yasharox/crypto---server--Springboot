@@ -37,7 +37,10 @@ public class PaymentServiceImpl implements PaymentService {
     @Value("${razorpay.api.SecretKey}")
     private String apiSecretKey;
 
-    @Value("${PUBLIC_UI_URL}") // "https://crypto-fullstack-apz6.vercel.app"
+//    @Value("${PUBLIC_UI_URL}") // "https://crypto-fullstack-apz6.vercel.app"
+//    private String publicUiUrl;
+
+    @Value("${public.ui.url:https://crypto-fullstack-apz6.vercel.app}") // "https://crypto-fullstack-apz6.vercel.app"
     private String publicUiUrl;
 
 
