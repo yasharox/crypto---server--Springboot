@@ -71,7 +71,7 @@ public class AppConfig {
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration config = new CorsConfiguration();
 //        config.setAllowedOrigins(List.of("*")); // Allow frontend
-        config.setAllowedOrigins(List.of("http://localhost:5173",
+        config.setAllowedOrigins(List.of(
                 "https://crypto-fullstack-apz6.vercel.app",
                 "https://crypto-fullstack-ox.vercel.app",
                 "https://crypto-server-springboot-production.up.railway.app"
