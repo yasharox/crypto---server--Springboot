@@ -11,7 +11,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-@CrossOrigin(origins = "http://localhost:5173")
+@CrossOrigin(origins = {"http://localhost:5173",
+        "https://crypto-fullstack-apz6.vercel.app"}
+)
 @RestController
 //@RequestMapping("/coins")
 public class CoinController {
@@ -25,7 +27,8 @@ public class CoinController {
     @GetMapping("/coins")
     ResponseEntity<List<Coin>> getCoinList (
             @RequestParam(
-                    required = false,
+//                    required = false,
+                    defaultValue = "1",
                     name ="page")
             int page) throws Exception {
         List<Coin> coins = coinService.getCoinList(page);
