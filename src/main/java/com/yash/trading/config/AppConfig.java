@@ -47,6 +47,7 @@ public class AppConfig {
                 .authorizeHttpRequests(Authorize->Authorize
                         .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                         .requestMatchers("/auth/**").permitAll()
+                        .requestMatchers("/coins/**").permitAll()
                         .requestMatchers("/api/transactions").authenticated()
                         .requestMatchers("/api/**").authenticated()
                         .anyRequest().permitAll())
@@ -56,7 +57,8 @@ public class AppConfig {
                         UsernamePasswordAuthenticationFilter.class
                 )
                 .csrf(AbstractHttpConfigurer::disable)
-                .cors(CorsConfigurer::disable);
+                .cors(cors -> cors.configurationSource(corsConfigurationSource()));
+//                .cors(CorsConfigurer::disable);
 
         return http.build();
     }
@@ -77,10 +79,11 @@ public class AppConfig {
         //        config.setAllowedOrigins(List.of("*")); // Allow frontend
         config.setAllowedOrigins(List.of(
                 "https://crypto-fullstack-apz6.vercel.app",
-                "https://crypto-fullstack-ox.vercel.app"
+                "http://localhost:5173"
+
         ));
         config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE","PATCH", "OPTIONS"));
-        config.setAllowedHeaders(List.of("Authorization", "Content-Type"));
+        config.setAllowedHeaders(List.of("*"));
         config.setExposedHeaders(List.of("Authorization"));
         config.setAllowCredentials(true);
 
@@ -89,16 +92,16 @@ public class AppConfig {
         return source;
     }
 
-    @Bean
-    WebMvcConfigurer corsConfig() {
-        return new WebMvcConfigurer() {
-            @Override
-            public void addCorsMappings(CorsRegistry registry) {
-                registry.addMapping("/**");
-            }
-
-        };
-    }
+//    @Bean
+//    WebMvcConfigurer corsConfig() {
+//        return new WebMvcConfigurer() {
+//            @Override
+//            public void addCorsMappings(CorsRegistry registry) {
+//                registry.addMapping("/**");
+//            }
+//
+//        };
+//    }
 
 }
 
