@@ -100,6 +100,7 @@ public class PaymentController {
         walletService.addBalance(wallet, paymentOrder.getAmount());
 
         return ResponseEntity.ok("Wallet updated successfully");
+//        return ResponseEntity.ok("Wallet updated successfully");
     }
 
 //    THIS ENDPOINT IS MISSING IN YOUR APP — THAT IS THE BUG
