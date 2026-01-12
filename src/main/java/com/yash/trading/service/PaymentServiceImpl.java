@@ -103,7 +103,10 @@ public class PaymentServiceImpl implements PaymentService {
     public PaymentResponse createRazorPaymentLink(User user, Long Amount, Long orderId) throws RazorpayException {
 
 
-        Long amount = Amount * 100;
+//        Long amount = Amount * 100;
+
+        // 🔴 FIX: Convert to paise safely
+        Long amount = Math.multiplyExact(Amount, 100);
 
 
         try {
@@ -143,7 +146,11 @@ public class PaymentServiceImpl implements PaymentService {
             PaymentLink payment = razorpay.paymentLink.create(paymentLinkRequest);
 
             String paymentLinkId = payment.get("id");
-            String paymentLinkUrl = payment.get("short_url");
+//            String paymentLinkUrl = payment.get("short_url");
+            String paymentLinkUrl = payment.get("payment_link_url"); // changed this
+
+            // 🔴 DEBUG LOG (verify once)
+            System.out.println("✅ Razorpay Payment URL = " + paymentLinkUrl);
 
             PaymentResponse res = new PaymentResponse();
             res.setPayment_url(paymentLinkUrl);
