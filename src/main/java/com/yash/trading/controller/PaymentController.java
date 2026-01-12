@@ -106,11 +106,9 @@ public class PaymentController {
 
 
 
-
-
 }
 
 
 /// in razor pay >> uupi done >>  payment_id  >>  paymnt succss
-//>> razor pay will make pai call
+//>> razor pay will make pai call // yallah
 
