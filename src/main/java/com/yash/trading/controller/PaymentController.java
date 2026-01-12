@@ -26,9 +26,9 @@ public class PaymentController {
     private PaymentService paymentService;
 
 
-//    // changed new
-//    @Autowired
-//    private WalletService walletService;
+    // changed new
+    @Autowired
+    private WalletService walletService;
 
     /// /above
 
@@ -69,6 +69,40 @@ public class PaymentController {
 
     ///  new changes added
 
+    @PostMapping("/api/payment/confirm")
+    public ResponseEntity<?> confirmPayment(
+            @RequestParam("order_id") Long orderId,
+            @RequestParam("payment_id") String paymentId,
+            @RequestHeader("Authorization") String authHeader
+    ) throws Exception {
+
+        if (!authHeader.startsWith("Bearer ")) {
+            throw new RuntimeException("Invalid Authorization header");
+        }
+
+        String jwt = authHeader.substring(7);
+        User user = userService.findUserProfileByJwt(jwt);
+
+        PaymentOrder paymentOrder =
+                paymentService.getPaymentOrderById(orderId);
+
+        boolean success =
+                paymentService.proceedPaymentOrder(paymentOrder, paymentId);
+
+        if (!success) {
+            return ResponseEntity
+                    .status(HttpStatus.BAD_REQUEST)
+                    .body("Payment failed");
+        }
+
+        // ✅ ADD MONEY TO WALLET
+        Wallet wallet = walletService.getUserWallet(user);
+        walletService.addBalance(wallet, paymentOrder.getAmount());
+
+        return ResponseEntity.ok("Wallet updated successfully");
+    }
+
+//    THIS ENDPOINT IS MISSING IN YOUR APP — THAT IS THE BUG
 
 
 
