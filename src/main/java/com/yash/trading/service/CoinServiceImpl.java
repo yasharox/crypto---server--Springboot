@@ -128,9 +128,12 @@ public class CoinServiceImpl implements CoinService{
     @Override
     public Coin findById(String coinId) throws Exception {
 
-        Optional<Coin> optionalCoin = coinRepository.findById(coinId);
-        if (optionalCoin.isEmpty())throw new Exception("coin not found");
-        return optionalCoin.get();
+//        Optional<Coin> optionalCoin = coinRepository.findById(coinId);
+//        if (optionalCoin.isEmpty())throw new Exception("coin not found");
+//        return optionalCoin.get();
+
+        return coinRepository.findById(coinId)
+                .orElseThrow(() -> new RuntimeException("Coin not found in DB: " + coinId));
     }
 
     @Override
