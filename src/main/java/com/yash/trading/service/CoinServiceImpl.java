@@ -6,6 +6,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.yash.trading.model.Coin;
 import com.yash.trading.repository.CoinRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
@@ -29,6 +30,11 @@ public class CoinServiceImpl implements CoinService{
     @Autowired
     private ObjectMapper objectMapper;
 
+    @Value("${coingecko.api.key}")
+    private String API_KEY;
+
+
+
     @Override
     public List<Coin> getCoinList(int page) throws Exception {
         String url = "https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&per_page=10&page="+page;
@@ -36,9 +42,12 @@ public class CoinServiceImpl implements CoinService{
 
         try{
             HttpHeaders headers = new HttpHeaders();
+            headers.set("x-cg-demo-api-key", API_KEY);
+
             HttpEntity<String> entity = new HttpEntity<String>("parameters", headers);
 
-            ResponseEntity<String> response = restTemplate.exchange(url, HttpMethod.GET, entity, String.class);
+            ResponseEntity<String> response = restTemplate.exchange(url, HttpMethod.GET,
+                    entity, String.class);
 
             return objectMapper.readValue(response.getBody(),
                     new TypeReference<List<Coin>>() {});
@@ -58,6 +67,7 @@ public class CoinServiceImpl implements CoinService{
 
         try{
             HttpHeaders headers = new HttpHeaders();
+            headers.set("x-cg-demo-api-key", API_KEY);
 
             HttpEntity<String> entity = new HttpEntity<String>("parameters", headers);
 
@@ -79,6 +89,7 @@ public class CoinServiceImpl implements CoinService{
 
         try{
             HttpHeaders headers = new HttpHeaders();
+            headers.set("x-cg-demo-api-key", API_KEY);
             HttpEntity<String> entity = new HttpEntity<String>("parameters", headers);
 
             ResponseEntity<String> response = restTemplate.exchange(url, HttpMethod.GET, entity, String.class);
@@ -131,6 +142,8 @@ public class CoinServiceImpl implements CoinService{
 
         try{
             HttpHeaders headers = new HttpHeaders();
+            headers.set("x-cg-demo-api-key", API_KEY);
+
 
             HttpEntity<String> entity = new HttpEntity<String>("parameters", headers);
 
@@ -152,6 +165,7 @@ public class CoinServiceImpl implements CoinService{
 
         try{
             HttpHeaders headers = new HttpHeaders();
+            headers.set("x-cg-demo-api-key", API_KEY);
 
             HttpEntity<String> entity = new HttpEntity<String>("parameters", headers);
 
@@ -177,6 +191,7 @@ public class CoinServiceImpl implements CoinService{
 
         try{
             HttpHeaders headers = new HttpHeaders();
+            headers.set("x-cg-demo-api-key", API_KEY);
 
             HttpEntity<String> entity = new HttpEntity<String>("parameters", headers);
 
