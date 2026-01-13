@@ -19,12 +19,14 @@ public class WatchlistServiceImpl implements WatchlistService {
 
     @Override
     public Watchlist findUserWatchlist(Long userId) throws Exception {
-        Watchlist watchlist = watchlistRepository.findByUserId(userId);
-        if (watchlist == null){
-            throw new Exception("watchlist not found");
+//        Watchlist watchlist = watchlistRepository.findByUserId(userId);
+//        if (watchlist == null){
+//            throw new Exception("watchlist not found");
+//
+//             }
+//        return watchlist;
 
-             }
-        return watchlist;
+        return watchlistRepository.findByUserId(userId);
     }
 
     @Override
@@ -50,12 +52,32 @@ public class WatchlistServiceImpl implements WatchlistService {
 
     @Override
     public Coin addItemToWatchlist(Coin coin,User user) throws Exception {
-        Watchlist watchlist=findUserWatchlist(user.getId());
+//        Watchlist watchlist=findUserWatchlist(user.getId());
+//
+//        if(watchlist.getCoins().contains(coin)){
+//            watchlist.getCoins().remove(coin);
+//        }
+//        else watchlist.getCoins().add(coin);
+//        watchlistRepository.save(watchlist);
+//        return coin;
 
-        if(watchlist.getCoins().contains(coin)){
-            watchlist.getCoins().remove(coin);
+        // 🔴 CHANGED: safely fetch watchlist
+        Watchlist watchlist = watchlistRepository.findByUserId(user.getId());
+
+        // 🔴 CHANGED: auto-create watchlist if not present (VERY IMPORTANT)
+        if (watchlist == null) {
+            watchlist = new Watchlist();
+            watchlist.setUser(user);
+            watchlist = watchlistRepository.save(watchlist);
         }
-        else watchlist.getCoins().add(coin);
+
+        // Toggle add/remove coin
+        if (watchlist.getCoins().contains(coin)) {
+            watchlist.getCoins().remove(coin);
+        } else {
+            watchlist.getCoins().add(coin);
+        }
+
         watchlistRepository.save(watchlist);
         return coin;
     }
