@@ -105,7 +105,6 @@ public class PaymentServiceImpl implements PaymentService {
 
         Long amount = Amount * 100;
 
-
         try {
             // Instantiate a Razorpay client with your key ID and secret
             RazorpayClient razorpay = new RazorpayClient(apiKey, apiSecretKey);
@@ -133,8 +132,8 @@ public class PaymentServiceImpl implements PaymentService {
 
             // Set the callback URL and method
             paymentLinkRequest.put("callback_url",
-//                    "http://localhost:5173/wallet?order_id="+orderId
-                    publicUiUrl + "/wallet?order_id=" + orderId
+                    "http://localhost:5173/wallet?order_id="+orderId
+//                    publicUiUrl + "/wallet?order_id=" + orderId
 
             );
             paymentLinkRequest.put("callback_method","get");
