@@ -105,9 +105,9 @@ public class WalletController {
     }
 
 
+//"/api/payment/confirm",
 
-
-    @PutMapping("/deposit")
+    @PutMapping("/confirm")
     public ResponseEntity<Wallet> addBalanceToWallet (
             @RequestHeader("Authorization") String authHeader,
             @RequestParam(name = "order_id") Long orderId,
